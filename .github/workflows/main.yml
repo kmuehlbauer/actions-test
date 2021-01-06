@@ -33,7 +33,7 @@ jobs:
           echo Works.
           
   upload_pypi:
-    if: github.event.release.created == true
+    if: github.event_name == 'release'
     needs: [build]
     name: deploy to pypi
     runs-on: ubuntu-latest
