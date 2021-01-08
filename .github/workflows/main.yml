@@ -28,7 +28,7 @@ jobs:
     name: A job to say hello
     steps:
     - uses: actions/checkout@v2
-    - uses: ./.github/actions/hello
+    - uses: ./.github/actions/test
       with:
         who-to-greet: 'Mona the Octocat'
 
