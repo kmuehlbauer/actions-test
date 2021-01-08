@@ -23,6 +23,32 @@ jobs:
           echo Add other actions to build,
           echo test, and deploy your project.
           
+  umamba:
+    name: windows test
+    runs-on: windows-latest
+    steps:
+      - name: install micromamba
+        run: |
+          Invoke-Webrequest -URI https://micromamba.snakepit.net/api/micromamba/win-64/latest -OutFile micromamba.tar.bz2
+          C:\PROGRA~1\7-Zip\7z.exe x micromamba.tar.bz2 -aoa
+          C:\PROGRA~1\7-Zip\7z.exe x micromamba.tar -ttar -aoa -r Library\bin\micromamba.exe
+          MOVE -Force Library\bin\micromamba.exe micromamba.exe
+          .\micromamba.exe shell init -s powershell -p $HOME/micromamba
+        shell: powershell
+      - name: Install deps
+        run: |
+          $Env:MAMBA_ROOT_PREFIX=(Join-Path -Path $HOME -ChildPath micromamba)
+          $Env:MAMBA_EXE=(Join-Path -Path (Get-Location) -ChildPath micromamba.exe)
+          .\micromamba.exe shell hook -s powershell | Out-String | Invoke-Expression
+          micromamba create -y -n wradlib-tests python=3.9 --channel conda-forge
+        shell: powershell
+      - name: Install packages
+        run: |
+          eval "$(./micromamba shell hook -s bash)"
+          micromamba activate wradlib-tests
+          python -m pip install --no-deps -e .
+        shell: bash
+          
   trigger_rtd:
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
