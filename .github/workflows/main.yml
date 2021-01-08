@@ -46,7 +46,7 @@ jobs:
         run: |
           eval "$(./micromamba shell hook -s bash)"
           micromamba activate wradlib-tests
-          micromamba install wetterdienst
+          micromamba install -y wetterdienst --channel conda-forge
           micromamba list
           python -c "import sys; print(sys.version)"
         shell: bash
