@@ -22,7 +22,19 @@ jobs:
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
-          
+
+  hello_world_job:
+    runs-on: ubuntu-latest
+    name: A job to say hello
+    steps:
+    - id: foo
+      uses: test
+      with:
+        who-to-greet: 'Mona the Octocat'
+    - run: echo random-number ${{ steps.foo.outputs.random-number }} 
+      shell: bash
+
+
   umamba:
     name: windows test
     runs-on: windows-latest
