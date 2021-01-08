@@ -26,6 +26,9 @@ jobs:
   umamba:
     name: windows test
     runs-on: windows-latest
+    defaults:
+      run:
+        shell: bash -l {0}
     steps:
       - name: install micromamba
         run: |
@@ -37,10 +40,7 @@ jobs:
         shell: powershell
       - name: setup bash
         run: |
-          #mv "$HOME/.bashrc" .bashrcBAK
-          #touch "$HOME/.bashrc"
-          eval "(./micromamba shell init -s bash -p $HOME/micromamba1)"
-        shell: bash
+          eval "(./micromamba shell init -s bash -p $HOME/test)"
       - name: Install deps
         run: |
           $Env:MAMBA_ROOT_PREFIX=(Join-Path -Path $HOME -ChildPath micromamba)
@@ -55,7 +55,6 @@ jobs:
           micromamba install -y tqdm --channel conda-forge
           micromamba list
           python -c "import sys; print(sys.version)"
-        shell: bash
           
   trigger_rtd:
     runs-on: ubuntu-latest
