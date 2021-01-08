@@ -39,7 +39,7 @@ jobs:
         run: |
           #mv "$HOME/.bashrc" .bashrcBAK
           #touch "$HOME/.bashrc"
-          eval "(./micromamba shell init -s bash -p $HOME/micromamba)"
+          eval "(./micromamba shell init -s bash -p $HOME/micromamba1)"
         shell: bash
       - name: Install deps
         run: |
