@@ -40,13 +40,15 @@ jobs:
           $Env:MAMBA_ROOT_PREFIX=(Join-Path -Path $HOME -ChildPath micromamba)
           $Env:MAMBA_EXE=(Join-Path -Path (Get-Location) -ChildPath micromamba.exe)
           .\micromamba.exe shell hook -s powershell | Out-String | Invoke-Expression
-          micromamba create -y -n wradlib-tests python=3.9 --channel conda-forge
+          micromamba create -y -n wradlib-tests python=3.9 pip --channel conda-forge
         shell: powershell
       - name: Install packages
         run: |
           eval "$(./micromamba shell hook -s bash)"
           micromamba activate wradlib-tests
-          python -m pip install --no-deps -e .
+          micromamba install wetterdienst
+          micromamba list
+          python -c "import sys; print(sys.version)"
         shell: bash
           
   trigger_rtd:
