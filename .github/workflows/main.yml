@@ -42,6 +42,12 @@ jobs:
           .\micromamba.exe shell hook -s powershell | Out-String | Invoke-Expression
           micromamba create -y -n wradlib-tests python=3.9 pip --channel conda-forge
         shell: powershell
+      - name: setup bash
+        run: |
+          #mv "$HOME/.bashrc" .bashrcBAK
+          #touch "$HOME/.bashrc"
+          .\micromamba.exe shell init -s bash -p $HOME/micromamba
+        shell: bash
       - name: Install packages
         run: |
           eval "$(./micromamba shell hook -s bash)"
