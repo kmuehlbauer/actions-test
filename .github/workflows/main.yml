@@ -22,6 +22,25 @@ jobs:
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
+  build_1:
+    runs-on: macos-latest
+    defaults:
+      run:
+        shell: bash -l {0}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run a one-line script
+        run: echo Hello, world!
+      - name: Run a multi-line script
+        run: |
+          echo Add other actions to build,
+          echo test, and deploy your project.
+          echo "alias realpath='python -c \"import os, sys; print(os.path.realpath(sys.argv[1]))\"'" >> "$HOME/.bash_profile"
+      - name: Check realpath
+        run: |
+          mkdir test
+          export TEST=`realpath ./test`
+          echo $TEST
 
   hello_world_job:
     runs-on: ubuntu-latest
