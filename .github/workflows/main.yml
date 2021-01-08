@@ -40,7 +40,7 @@ jobs:
         shell: powershell
       - name: setup bash
         run: |
-          eval "(./micromamba shell init -s bash -p $HOME/test)"
+          eval "(./micromamba shell init -s bash -p ~/test)"
       - name: Install deps
         run: |
           $Env:MAMBA_ROOT_PREFIX=(Join-Path -Path $HOME -ChildPath micromamba)
