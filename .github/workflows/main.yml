@@ -38,15 +38,12 @@ jobs:
           MOVE -Force Library\bin\micromamba.exe micromamba.exe
           .\micromamba.exe shell init -s powershell -p $HOME/micromamba
         shell: powershell
-      - name: setup bash
-        run: |
-          eval "(./micromamba shell init -s bash -p ~/test)"
       - name: Install deps
         run: |
           $Env:MAMBA_ROOT_PREFIX=(Join-Path -Path $HOME -ChildPath micromamba)
           $Env:MAMBA_EXE=(Join-Path -Path (Get-Location) -ChildPath micromamba.exe)
-          .\micromamba.exe shell hook -s powershell | Out-String | Invoke-Expression
-          micromamba create -y -n wradlib-tests python=3.9 pip --channel conda-forge
+          #.\micromamba.exe shell hook -s powershell | Out-String | Invoke-Expression
+          .\micromamba.exe create -y -n wradlib-tests python=3.9 pip --channel conda-forge
         shell: powershell
       - name: Install packages
         run: |
