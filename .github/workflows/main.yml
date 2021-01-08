@@ -27,13 +27,10 @@ jobs:
     runs-on: ubuntu-latest
     name: A job to say hello
     steps:
-    - id: foo
     - uses: actions/checkout@v2
-    - uses: ./.github/workflows/test
+    - uses: ./.github/actions/hello
       with:
         who-to-greet: 'Mona the Octocat'
-    - run: echo random-number ${{ steps.foo.outputs.random-number }} 
-      shell: bash
 
   umamba:
     name: windows test
