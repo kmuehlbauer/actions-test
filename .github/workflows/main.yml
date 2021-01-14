@@ -14,12 +14,36 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - test_number: 1
+            python_version: "3.7"
+            deps: "min"
+            test: "standard"
+          - test_number: 2
+            python_version: "3.7"
+            deps: "full"
+            test: "standard"
+          - test_number: 3
+            python_version: "3.7"
+            deps: "full"
+            test: "examples"
+          - test_number: 4
+            python_version: "3.7"
+            deps: "osmesa"
+            test: "osmesa"
     steps:
       - uses: actions/checkout@v2
       - name: Run a one-line script
         run: echo Hello, world!
+      - name: If deps
+        if: ${{ matrix.deps }} == 'full'
+        run: echo Hello, world!  
       - name: Run a multi-line script
         run: |
+          echo ${{ matrix.deps }}
           echo Add other actions to build,
           echo test, and deploy your project.
   build_1:
