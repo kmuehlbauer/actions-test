@@ -72,7 +72,20 @@ jobs:
           micromamba list
           python -c "import vispy; print(vispy.version.version)"
           python -c "import vispy; print(vispy.sys_info())"
-      - uses: actions/checkout@v2
+      - name: Run tests
+        run: |
+          if [ "${{ matrix.test }}" == 'standard' ]; then
+            export DISPLAY=:99.0
+            python make test unit --tb=short
+          fi
+          if [ "${{ matrix.test }}" == 'examples' ]; then
+            export DISPLAY=:99.0
+            make examples
+          fi
+          if [ "${{ matrix.test }}" == 'osmesa' ]; then
+            export OSMESA_LIBRARY=~/micromamba/envs/vispy-tests/lib/libOSMesa32.so;
+            make osmesa
+          fi
       - name: Run a one-line script
         run: echo Hello, world!
       - name: Run a one-line script
