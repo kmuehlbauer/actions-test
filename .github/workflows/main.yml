@@ -57,6 +57,7 @@ jobs:
         with:
           repository: vispy/vispy 
           submodules: 'recursive'
+          path: vispy
       - name: Install vispy
         run: |
           cd vispy
