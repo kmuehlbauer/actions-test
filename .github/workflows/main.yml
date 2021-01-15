@@ -55,13 +55,12 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get -q -y install libglu1-mesa-dev libgl1-mesa-dev libxi-dev libglfw3-dev libgles2-mesa-dev mesa-utils
-      - name: "Check OpenGL"
-        run: |
-          xvfb-run glxinfo
       - name: "Check xvfb daemon"
         run: |
           export DISPLAY=:99.0
           /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -screen 0 1400x900x24 -ac +extension GLX +render       
+      - name: "Check OpenGL"
+        run: |
           glxinfo
       - name: Install micromamba
         run: |
@@ -97,7 +96,6 @@ jobs:
         run: |
           if [ "${{ matrix.test }}" != 'osmesa' ]; then
             export DISPLAY=:99.0
-            sudo /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -screen 0 1400x900x24 -ac +extension GLX +render
           fi
           if [ "${{ matrix.test }}" == 'osmesa' ]; then
             export OSMESA_LIBRARY=~/micromamba/envs/vispy-tests/lib/libOSMesa32.so;
@@ -115,7 +113,6 @@ jobs:
           fi
           if [ "${{ matrix.test }}" == 'examples' ]; then
             export DISPLAY=:99.0
-            export QT_QPA_PLATFORM='offscreen'
             make examples
           fi
           if [ "${{ matrix.test }}" == 'osmesa' ]; then
