@@ -82,7 +82,7 @@ jobs:
           fi
           if [ "${{ matrix.test }}" == 'examples' ]; then
             export DISPLAY=:99.0
-            python examples/basics/gloo/display_points.py
+            export QT_QPA_PLATFORM='offscreen'
             make examples
           fi
           if [ "${{ matrix.test }}" == 'osmesa' ]; then
