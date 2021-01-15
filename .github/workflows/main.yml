@@ -22,14 +22,11 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get -q -y install libglu1-mesa-dev libgl1-mesa-dev libxi-dev libglfw3-dev libgles2-mesa-dev mesa-utils
-      - name: "Check OpenGL"
-        run: |
-          xvfb-run glxinfo
       - name: "Start xvfb daemon"
         run: |
           export DISPLAY=':99.0'
           /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -screen 0 1400x900x24 -ac +extension GLX +render       
-      - name: "Check OpenGL 2"
+      - name: "Check OpenGL"
         run: |
           export DISPLAY=':99.0'  
           glxinfo
@@ -61,6 +58,7 @@ jobs:
           /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -screen 0 1400x900x24 -ac +extension GLX +render       
       - name: "Check OpenGL"
         run: |
+          export DISPLAY=:99.0
           glxinfo
       - name: Install micromamba
         run: |
