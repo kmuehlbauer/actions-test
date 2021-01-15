@@ -50,7 +50,7 @@ jobs:
       - name: Install pip-dependencies
         run: |
           if [ "${{ matrix.deps }}" == 'full' ]; then
-            pip install -y husl pypng cassowary pyopengltk
+            pip install husl pypng cassowary pyopengltk
             rm -rf vispy/ext/_bundled
           fi
       - uses: actions/checkout@v2
