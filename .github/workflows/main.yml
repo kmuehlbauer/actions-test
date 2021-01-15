@@ -33,7 +33,10 @@ jobs:
       - name: "Install OpenGL"
         run: |
           sudo apt-get update
-          sudo apt-get -q -y install libglu1-mesa-dev libgl1-mesa-dev libxi-dev libglfw3-dev libgles2-mesa-dev
+          sudo apt-get -q -y install libglu1-mesa-dev libgl1-mesa-dev libxi-dev libglfw3-dev libgles2-mesa-dev mesa-utils
+      - name: "Check OpenGL"
+        run: |
+          xvfb-run glxinfo
       - name: Install micromamba
         run: |
           wget -qO- https://micromamba.snakepit.net/api/micromamba/linux-64/latest | tar -xvj bin/micromamba --strip-components=1
