@@ -14,14 +14,13 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -l {0}
     strategy:
       fail-fast: false
       matrix:
         include:
-          - test_number: 1
-            python_version: "3.7"
-            deps: "min"
-            test: "standard"
           - test_number: 2
             python_version: "3.7"
             deps: "full"
@@ -30,12 +29,50 @@ jobs:
             python_version: "3.7"
             deps: "full"
             test: "examples"
-          - test_number: 4
-            python_version: "3.7"
-            deps: "osmesa"
-            test: "osmesa"
     steps:
+      - name: "Install OpenGL"
+        run: |
+          sudo apt-get update
+          sudo apt-get -q -y install libglu1-mesa-dev libgl1-mesa-dev libxi-dev libglfw3-dev libgles2-mesa-dev
+      - name: Install micromamba
+        run: |
+          wget -qO- https://micromamba.snakepit.net/api/micromamba/linux-64/latest | tar -xvj bin/micromamba --strip-components=1
+          mv "$HOME/.bashrc" .bashrcBAK
+          touch "$HOME/.bashrc"
+          ./micromamba shell init -s bash -p ~/micromamba
+          cat "$HOME/.bashrc" >> "$HOME/.bash_profile"
+          mv .bashrcBAK "$HOME/.bashrc"
+      - name: Install conda-environment
+        run: |
+          micromamba create -y -n vispy-tests python=${{ matrix.python_version }} cmake cython coveralls decorator freetype<2.10.0 freetype-py glfw!=3.3.1 imageio jupyter matplotlib meshio networkx numpy pillow pyqt=5 pysdl2 pytest pytest-cov pytest-sugar pyopengl scikit-image scipy six --channel conda-forge           echo "set -eo pipefail" >> "$HOME/.bash_profile"
+          echo "micromamba activate vispy-tests" >> "$HOME/.bash_profile"
+      - name: Install pip-dependencies
+        run: |
+          if [ "${{ matrix.deps }}" == 'full' ]; then
+            pip install -r ci/requirements/linux_full_deps_pip.txt
+            rm -rf vispy/ext/_bundled
+          fi
       - uses: actions/checkout@v2
+        with:
+          repository: vispy/vispy 
+          submodules: 'recursive'
+      - name: Install vispy
+        run: |
+          cd vispy
+          python setup.py install
+          python setup.py develop
+      - name: Version Info
+        run: |
+          if [ "${{ matrix.test }}" != 'osmesa' ]; then
+            export DISPLAY=:99.0
+            /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -screen 0 1400x900x24 -ac +extension GLX +render
+          fi
+          micromamba list
+          python -c "import vispy; print(vispy.version.version)"
+          python -c "import vispy; print(vispy.sys_info())"
+      - uses: actions/checkout@v2
+      - name: Run a one-line script
+        run: echo Hello, world!
       - name: Run a one-line script
         run: echo Hello, world!
       - name: If deps
