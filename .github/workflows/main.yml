@@ -12,6 +12,20 @@ on:
   workflow_dispatch:
 
 jobs:
+  opengl:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -l {0}
+    steps:
+      - name: "Install OpenGL"
+        run: |
+          sudo apt-get update
+          sudo apt-get -q -y install libglu1-mesa-dev libgl1-mesa-dev libxi-dev libglfw3-dev libgles2-mesa-dev mesa-utils
+      - name: "Check OpenGL"
+        run: |
+          xvfb-run glxinfo
+
   build:
     runs-on: ubuntu-latest
     defaults:
@@ -37,6 +51,11 @@ jobs:
       - name: "Check OpenGL"
         run: |
           xvfb-run glxinfo
+      - name: "Check xvfb daemon"
+        run: |
+          export DISPLAY=:99.0
+          /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -screen 0 1400x900x24 -ac +extension GLX +render       
+          glxinfo
       - name: Install micromamba
         run: |
           wget -qO- https://micromamba.snakepit.net/api/micromamba/linux-64/latest | tar -xvj bin/micromamba --strip-components=1
