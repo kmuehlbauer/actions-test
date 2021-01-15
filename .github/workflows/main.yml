@@ -44,12 +44,12 @@ jobs:
           mv .bashrcBAK "$HOME/.bashrc"
       - name: Install conda-environment
         run: |
-          micromamba create -y -n vispy-tests python=${{ matrix.python_version }} cmake cython coveralls decorator freetype<2.10.0 freetype-py glfw!=3.3.1 imageio jupyter matplotlib meshio networkx numpy pillow pyqt=5 pysdl2 pytest pytest-cov pytest-sugar pyopengl scikit-image scipy six --channel conda-forge           echo "set -eo pipefail" >> "$HOME/.bash_profile"
+          micromamba create -y -n vispy-tests python=${{ matrix.python_version }} cmake cython coveralls decorator "freetype<2.10.0" freetype-py "glfw!=3.3.1" imageio jupyter matplotlib meshio networkx numpy pillow pyqt=5 pysdl2 pytest pytest-cov pytest-sugar pyopengl scikit-image scipy six --channel conda-forge           echo "set -eo pipefail" >> "$HOME/.bash_profile"
           echo "micromamba activate vispy-tests" >> "$HOME/.bash_profile"
       - name: Install pip-dependencies
         run: |
           if [ "${{ matrix.deps }}" == 'full' ]; then
-            pip install -r ci/requirements/linux_full_deps_pip.txt
+            pip install -y husl pypng cassowary pyopengltk
             rm -rf vispy/ext/_bundled
           fi
       - uses: actions/checkout@v2
