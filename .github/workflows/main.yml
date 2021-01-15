@@ -74,6 +74,7 @@ jobs:
           python -c "import vispy; print(vispy.sys_info())"
       - name: Run tests
         run: |
+          cd vispy
           if [ "${{ matrix.test }}" == 'standard' ]; then
             export DISPLAY=:99.0
             python make test unit --tb=short
