@@ -27,5 +27,5 @@ runs:
     - run: |    
         micromamba create -y -n ${{ inputs.env-name }} python=${{ inputs.python-version }} -f ${{ inputs.requirements }} --channel conda-forge
         echo "set -eo pipefail" >> "$HOME/.bash_profile"
-        echo "micromamba activate ${{ inputs.env_name }}" >> "$HOME/.bash_profile"
+        echo "micromamba activate ${{ inputs.env-name }}" >> "$HOME/.bash_profile"
       shell: bash -l {0}
