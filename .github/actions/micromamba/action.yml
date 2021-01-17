@@ -12,6 +12,10 @@ inputs:
     description: 'environement name'
     required: true
     default: 'test-env'
+  shell-name:
+    description: 'shell name'
+    required: true
+    default: bash -l {0}
     
 runs:
   using: "composite"
@@ -25,6 +29,7 @@ runs:
           cat "$HOME/.bashrc" >> "$HOME/.bash_profile"
           mv .bashrcBAK "$HOME/.bashrc"
         fi
+      shell: ${{ inputs.shell-name }}
     - run: |    
         if [ ${{ runner.os }} == 'Linux' }} ]; then
           micromamba create -y -n ${{ inputs.env-name }} python=${{ inputs.python-version }} -f ${{ inputs.requirements }} --channel conda-forge
