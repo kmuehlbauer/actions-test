@@ -21,7 +21,7 @@ jobs:
     - uses: actions/checkout@v2
     - uses: ./.github/actions/micromamba
       with:
-        python-vbersion: 3.8
+        python-version: 3.8
         env-name: wradlib-tests
         requirements: ./ci/requirments/linux_full_deps_conda.txt
     - name: Test environment
