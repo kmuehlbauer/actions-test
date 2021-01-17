@@ -19,7 +19,7 @@ jobs:
         shell: bash -l {0}
     steps:
     - uses: actions/checkout@v2
-    - uses: kmuehlbauer/actions-test@develop
+    - uses: ./.github/actions/micromamba
       with:
         python-vbersion: 3.8
         env-name: wradlib-tests
