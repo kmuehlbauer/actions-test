@@ -24,6 +24,7 @@ jobs:
         python-version: 3.8
         env-name: wradlib-tests
         requirements: ./ci/requirements/linux_full_deps_conda.txt
+        shell-name: bash -l {0}
     - name: Test environment
       run: |
         micromamba list
