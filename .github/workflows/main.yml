@@ -12,6 +12,22 @@ on:
   workflow_dispatch:
 
 jobs:
+  micromamba:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -l {0}
+    steps:
+    - uses: actions/checkout@v2
+    - uses: kmuehlbauer/actions-test@develop
+      with:
+        python-vbersion: 3.8
+        env-name: wradlib-tests
+        requirements: ./ci/requirments/linux_full_deps_conda.txt
+    - name: Test environment
+      run: |
+        micromamba list
+    
   opengl:
     runs-on: ubuntu-latest
     defaults:
