@@ -12,20 +12,33 @@ inputs:
     description: 'environement name'
     required: true
     default: 'test-env'
+  os: 
+    description: 'operating system'
+    required: true
+    default: 'Linux'
+  shell:
+    description: 'shell'
+    required: true
+    default: bash -l {0}
+    
     
 runs:
   using: "composite"
   steps: 
     - run: |
-        wget -qO- https://micromamba.snakepit.net/api/micromamba/linux-64/latest | tar -xvj bin/micromamba --strip-components=1
-        mv "$HOME/.bashrc" .bashrcBAK
-        touch "$HOME/.bashrc"
-        ./micromamba shell init -s bash -p ~/micromamba
-        cat "$HOME/.bashrc" >> "$HOME/.bash_profile"
-        mv .bashrcBAK "$HOME/.bashrc"
-      shell: bash -l {0}
+        if [ ${{ runner.os == 'Linux' }} ]; then
+          wget -qO- https://micromamba.snakepit.net/api/micromamba/linux-64/latest | tar -xvj bin/micromamba --strip-components=1
+          mv "$HOME/.bashrc" .bashrcBAK
+          touch "$HOME/.bashrc"
+          ./micromamba shell init -s bash -p ~/micromamba
+          cat "$HOME/.bashrc" >> "$HOME/.bash_profile"
+          mv .bashrcBAK "$HOME/.bashrc"
+        fi
+      shell: ${{ inputs.shell }}
     - run: |    
-        micromamba create -y -n ${{ inputs.env-name }} python=${{ inputs.python-version }} -f ${{ inputs.requirements }} --channel conda-forge
-        echo "set -eo pipefail" >> "$HOME/.bash_profile"
-        echo "micromamba activate ${{ inputs.env-name }}" >> "$HOME/.bash_profile"
-      shell: bash -l {0}
+        if [ ${{ runner.os == 'Linux' }} ]; then
+          micromamba create -y -n ${{ inputs.env-name }} python=${{ inputs.python-version }} -f ${{ inputs.requirements }} --channel conda-forge
+          echo "set -eo pipefail" >> "$HOME/.bash_profile"
+          echo "micromamba activate ${{ inputs.env-name }}" >> "$HOME/.bash_profile"
+        fi
+      shell: ${{ inputs.shell }}
