@@ -26,7 +26,7 @@ runs:
   using: "composite"
   steps: 
     - run: |
-        if [ ${{ runner.os == 'Linux' }} ]; then
+        if [ ${{ inputs.os == 'ubuntu-latest' }} ]; then
           wget -qO- https://micromamba.snakepit.net/api/micromamba/linux-64/latest | tar -xvj bin/micromamba --strip-components=1
           mv "$HOME/.bashrc" .bashrcBAK
           touch "$HOME/.bashrc"
@@ -36,7 +36,7 @@ runs:
         fi
       shell: ${{ inputs.shell }}
     - run: |    
-        if [ ${{ runner.os == 'Linux' }} ]; then
+        if [ ${{ inputs.os == 'ubuntu-latest' }} ]; then
           micromamba create -y -n ${{ inputs.env-name }} python=${{ inputs.python-version }} -f ${{ inputs.requirements }} --channel conda-forge
           echo "set -eo pipefail" >> "$HOME/.bash_profile"
           echo "micromamba activate ${{ inputs.env-name }}" >> "$HOME/.bash_profile"
