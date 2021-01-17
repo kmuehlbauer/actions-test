@@ -25,7 +25,7 @@ jobs:
         env-name: wradlib-tests
         requirements: ./ci/requirements/linux_full_deps_conda.txt
         os: ${{ matrix.os }}
-        shell: ${{ run.shell }}
+        shell: ${{ defaults.run.shell }}
     - name: Test environment
       run: |
         micromamba list
