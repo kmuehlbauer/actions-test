@@ -36,3 +36,4 @@ runs:
           echo "set -eo pipefail" >> "$HOME/.bash_profile"
           echo "micromamba activate ${{ inputs.env-name }}" >> "$HOME/.bash_profile"
         fi
+      shell: ${{ inputs.shell-name }}
