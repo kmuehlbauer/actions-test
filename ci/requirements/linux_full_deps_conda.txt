@@ -1,2 +1,9 @@
-numpy
-scipy
+name: test
+channels:
+  - conda-forge
+dependencies:
+  - python=3.8
+  - numpy
+  - pip
+  - pip: 
+    flake8
