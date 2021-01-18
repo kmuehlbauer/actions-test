@@ -6,4 +6,4 @@ dependencies:
   - numpy
   - pip
   - pip: 
-    flake8
+    - flake8
