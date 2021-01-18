@@ -74,7 +74,7 @@ jobs:
       - name: Test set output
         run: |
           echo ${{ steps.vars.outputs.python_version }}
-          echo ${${{ matrix.python_version }}//.}
+          echo ${${ matrix.python_version }//.}
       - name: "Install OpenGL"
         run: |
           sudo apt-get update
