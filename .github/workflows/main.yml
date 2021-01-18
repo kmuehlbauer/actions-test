@@ -24,7 +24,7 @@ jobs:
         environment-file: ./ci/requirements/py39.yml
     - name: Install dependencies
       run: |
-        micromamba install -y -f ./ci/requirements/linux_full_deps_conda.txt
+        micromamba install -y -f ./ci/requirements/linux_full_deps_conda.txt -c conda-forge
     - name: Test environment
       run: |
         micromamba list
