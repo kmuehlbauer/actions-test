@@ -68,7 +68,7 @@ jobs:
     steps:
       - name: "set python"
         id: vars
-        run: echo ::set-output name=python_version::${{ matrix.python_version }//.}
+        run: echo ::set-output name=python_version::${${{ matrix.python_version }}//.}
       - name: Test set output
         run: |
           echo ${{ steps.vars.outputs.python_version }}
