@@ -68,12 +68,11 @@ jobs:
     steps:
       - name: "set python"
         id: vars
-        run: |
-          # ${string/pattern/replacement}
-          echo ::set-output name=python_version::${{ matrix.python_version }//.}
-          echo ${{ matrix.python_version }//.}
+        run: echo ::set-output name=python_version::${{ matrix.python_version }//.}
       - name: Test set output
-        run: echo ${{ steps.vars.outputs.python_version }}
+        run: |
+          echo ${{ steps.vars.outputs.python_version }}
+          echo ${{ matrix.python_version }//.}
       - name: "Install OpenGL"
         run: |
           sudo apt-get update
