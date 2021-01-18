@@ -21,7 +21,10 @@ jobs:
     - uses: actions/checkout@v2
     - uses: mamba-org/provision-with-micromamba@v7
       with:
-        environment-file: ./ci/requirements/linux_full_deps_conda.yml
+        environment-file: ./ci/requirements/py39.yml
+    - name: Install dependencies
+      run: |
+        micromamba install -y -f ./ci/requirements/linux_full_deps_conda.txt
     - name: Test environment
       run: |
         micromamba list
