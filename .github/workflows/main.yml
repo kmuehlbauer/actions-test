@@ -19,12 +19,9 @@ jobs:
         shell: bash -l {0}
     steps:
     - uses: actions/checkout@v2
-    - uses: ./.github/actions/micromamba
+    - uses: mamba-org/provision-with-micromamba@v7
       with:
-        python-version: 3.8
-        env-name: wradlib-tests
-        requirements: ./ci/requirements/linux_full_deps_conda.txt
-        shell-name: bash -l {0}
+        environment-file: ./ci/requirements/linux_full_deps_conda.txt
     - name: Test environment
       run: |
         micromamba list
